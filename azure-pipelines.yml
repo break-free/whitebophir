@@ -5,7 +5,9 @@
 # Added some text
 
 trigger:
-- master
+ branches:
+   include:
+     - master
 
 variables:
 
