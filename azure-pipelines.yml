@@ -12,16 +12,6 @@ trigger:
 pr: none
 
 variables:
-
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'de443a36-b10e-4f4e-b035-c47499496335'
-
-  # Web app name
-  webAppName: 'bf-whiteboard'
-
-  # Environment name
-  environmentName: 'bf-whiteboard'
-
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
