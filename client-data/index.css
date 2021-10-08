@@ -1,5 +1,5 @@
 html {
-	background: linear-gradient(135deg, #c4dfffa0, transparent), url(background.png);
+	background: linear-gradient(135deg, #ffc4c4a0, transparent), url(background.png);
 	width:100%;
 	min-height: 100%;
 	margin:0;
@@ -82,7 +82,7 @@ header:hover h2 {
 .wbo-button {
 	white-space: nowrap;
 	text-decoration: none;
-	background: linear-gradient(#C4DFFF, #8FA2BC);
+	background: linear-gradient(#000000, #060b11);
 	margin-top: 15px;
 	line-height: 60px;
 	border-radius: 5px;
@@ -168,7 +168,7 @@ footer a:hover {
 	padding-left: 22px;
 	list-style: none;
 	width: 70px;
-	background: white;
+	background: rgb(247, 205, 205);
 	max-height: 0;
 	overflow: hidden;
 	transition-duration: 1s;
