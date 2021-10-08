@@ -3,11 +3,11 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>WBO — {{translations.collaborative_whiteboard}}</title>
+	<title>BreakFree WBO — {{translations.collaborative_whiteboard}}</title>
 	<link rel="stylesheet" href="index.css" />
 	<meta name="description" content="{{translations.tagline}}" />
 	<meta name="keywords"
-		content="whiteboard,collaborative,online,draw,paint,shared,realtime,wbo,whitebophir,open-source,GPL,javascript" />
+		content="BreakFree,whiteboard,collaborative,online,draw,paint,shared,realtime,wbo,whitebophir,open-source,GPL,javascript" />
 	<link rel="icon" type="image/x-icon" sizes="16x16" href="favicon.ico">
 	<link rel="apple-touch-icon" href="favicon.svg">
 	<link rel="mask-icon" href="favicon.svg" color="black">
@@ -42,10 +42,10 @@
 			<p>{{{translations.share_instructions}}}</p>
 		</div>
 
-		<div>
+		<!-- Hiding public board option. <div>
 			<p>{{{translations.public_board_description}}}</p>
 			<a href="boards/anonymous" class="wbo-button">{{{translations.open_public_board}}}</a>
-		</div>
+		</div> -->
 
 		<div>
 			<p>{{{translations.private_board_description}}}</p>
@@ -60,16 +60,18 @@
 			</form>
 		</div>
 
-		<div id="recent-boards" class="hidden">
+		<!-- Recent boards are stored in translations.recent_boards. --><div id="recent-boards" class="hidden">
 			<h3>{{{translations.recent_boards}}}</h3>
 		</div>
 	</main>
 
 
 	<footer>
-		<a href="https://www.instagram.com/wbo_whiteboard/" class="smallink" rel="external" title="Instagram"><img
+		<a href="https://www.instagram.com/hiking_em/" class="smallink" rel="external" title="Instagram"><img
 				alt="instagram" src="instagram.svg" width="30" height="30" /></a>
-		<a href="https://github.com/lovasoa/whitebophir" class="smallink" rel="external"
+		<a href="https://www.linkedin.com/company/breakfree-solutions" class="smallink" rel="external" title="LinkedIn"><img
+                                alt="linkedin" src="LI-In-Bug.png" width="30" height="30" /></a>
+		<a href="https://github.com/break-free/whitebophir" class="smallink" rel="external"
 			title="{{translations.view_source}}"><img alt="github" src="github.svg" width="30" height="30" />
 		</a>
 	</footer>
