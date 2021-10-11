@@ -54,8 +54,8 @@
     "grid": "Grid",
     "hand": "Hand",
     "download": "Download",
-    "index_title": "Welcome to the free online whiteboard WBO!",
-    "introduction_paragraph": "WBO is a <a href=\"https://github.com/lovasoa/whitebophir\" title=\"Free as in free speech, not free beer. This software is released under the AGPL license\">free and open-source</a> online collaborative whiteboard that allows many users to draw simultaneously on a large virtual board. The board is updated in real time for all connected users, and its state is always persisted. It can be used for many different purposes, including art, entertainment, design and teaching.",
+    "index_title": "Welcome to the BreakFree online whiteboard!",
+    "introduction_paragraph": "WBO is a <a href=\"https://github.com/break-free/whitebophir\" title=\"Free as in free speech, not free beer. This software is released under the AGPL license\">free and open-source</a> online collaborative whiteboard that allows many users to draw simultaneously on a large virtual board. The board is updated in real time for all connected users. It can be used for purposes like art, entertainment, design and teaching.",
     "keyboard_shortcut": "keyboard shortcut",
     "loading": "Loading",
     "menu": "Menu",
@@ -65,7 +65,7 @@
     "opacity": "Opacity",
     "open_public_board": "Go to the public board",
     "pencil": "Pencil",
-    "private_board_description": "You can create a <b>private board</b> with a random name, that will be accessible only by its link. Use this if you want to share private information.",
+    "private_board_description": "You can create a <b>private board</b> with a random name, that will be accessible only by its link. <b>Use this if you want to share private information.</b>",
     "public_board_description": "The <b>public board</b> is accessible to everyone. It is a happily disorganized mess where you can meet with anonymous strangers and draw together. Everything there is ephemeral.",
     "recent_boards": "Recent Boards",
     "rectangle": "Rectangle",
@@ -76,7 +76,7 @@
     "tagline": "A free and open-source online collaborative drawing tool. Sketch new ideas together on WBO!",
     "text": "Text",
     "tools": "Tools",
-    "view_source": "Source code on GitHub",
+    "view_source": "Source code on BreakFree's GitHub profile",
     "zoom": "Zoom"
   },
   "es": {
