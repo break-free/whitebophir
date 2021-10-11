@@ -1,16 +1,16 @@
-# WBO
+# BreakFree WB
 
-WBO is an online collaborative whiteboard that allows many users to draw simultaneously on a large virtual board.
-The board is updated in real time for all connected users, and its state is always persisted. It can be used for many different purposes, including art, entertainment, design, teaching.
+BreakFree WB is an online collaborative whiteboard that allows many users to draw simultaneously on a large virtual board.
+The board is updated in real time for all connected users, and its state is always persisted unless DELETE_ON_LEAVE is true. It can be used for many different purposes, including art, entertainment, design, teaching.
 
 A demonstration server is available at [wbo.ophir.dev](https://wbo.ophir.dev)
 
 ## Screenshots
 
-<table>
+<!--<table>
  <tr>
   <td> The <i><a href="https://wbo.ophir.dev/boards/anonymous">anonymous</a></i> board
-  <td> <img width="300" src="https://user-images.githubusercontent.com/552629/59885574-06e02b80-93bc-11e9-9150-0670a1c5d4f3.png">
+  <td> <img width="300" src="https://user-images.githubusercontent.com/552629/59885574-06e02b80-93bc-11e9-9150-0670a1c5d4f3.png"> 
   <td> collaborative diagram editing
   <td> <img alt="Screenshot of WBO's user interface: architecture" width="300" src="https://user-images.githubusercontent.com/552629/59915054-07101380-941c-11e9-97c9-4980f50d302a.png" />
   
@@ -18,8 +18,8 @@ A demonstration server is available at [wbo.ophir.dev](https://wbo.ophir.dev)
    <td> teaching math on <b>WBO</b>
    <td> <img alt="wbo teaching" width="300" src="https://user-images.githubusercontent.com/552629/59915737-a386e580-941d-11e9-81ff-db9e37f140db.png" />
    <td> drawing art
-   <td> <img alt="angel drawn on WBO" width="300" src="https://user-images.githubusercontent.com/552629/59914139-08404100-941a-11e9-9c29-bd2569fe4730.png"/>
-</table>
+   <td> <img alt="kawai cats on WBO" width="300" src="https://user-images.githubusercontent.com/552629/120919822-dc2c3200-c6bb-11eb-94cd-57a4254fbe0a.png"/>
+</table>-->
 
 ## Running your own instance of WBO
 
@@ -28,14 +28,14 @@ If you have your own web server, and want to run a private instance of WBO on it
 ### Running the code in a container (safer)
 
 If you use the [docker](https://www.docker.com/) containerization service, you can easily run WBO as a container. 
-An official docker image for WBO is hosted on dockerhub as [`lovasoa/wbo`](https://hub.docker.com/repository/docker/lovasoa/wbo).
+An official docker image for WBO is hosted on dockerhub as [`lovasoa/wbo`](https://hub.docker.com/r/lovasoa/wbo): [![WBO 1M docker pulls](https://img.shields.io/docker/pulls/lovasoa/wbo.svg)](https://hub.docker.com/repository/docker/lovasoa/wbo).
 
 You can run the following bash command to launch WBO on port 5001, while persisting the boards outside of docker:
 
 ```bash
 mkdir wbo-boards # Create a directory that will contain your whiteboards
 chown -R 1000:1000 wbo-boards # Make this directory accessible to WBO
-docker run -it --publish 5001:8080 --volume "$(pwd)/wbo-boards:/opt/app/server-data" lovasoa/wbo:latest # run wbo
+docker run -it --publish 5001:80 --volume "$(pwd)/wbo-boards:/opt/app/server-data" lovasoa/wbo:latest # run wbo
 ```
 
 You can then access WBO at `http://localhost:5001`.
@@ -86,8 +86,20 @@ You can see a list of these variables in [`configuration.js`](./server/configura
 Some important environment variables are :
  - `WBO_HISTORY_DIR` : configures the directory where the boards are saved. Defaults to `./server-data/`.
  - `WBO_MAX_EMIT_COUNT` : the maximum number of messages that a client can send per unit of time. Increase this value if you want smoother drawings, at the expense of being susceptible to denial of service attacks if your server does not have enough processing power. By default, the units of this quantity are messages per 4 seconds, and the default value is `192`.
-- `DELETE_ON_LEAVE` : (default: `false` / `true`) whether the board gets deleted if the last user leaves or not
 
 ## Troubleshooting
 
 If you experience an issue or want to propose a new feature in WBO, please [open a github issue](https://github.com/lovasoa/whitebophir/issues/new).
+
+## Monitoring
+
+If you are self-hosting a WBO instance, you may want to monitor its load,
+the number of connected users, and various other metrics.
+
+You can start WBO with the `STATSD_URL` environment variable to send it to a statsd-compatible
+metrics collection agent.
+
+Example: `docker run -e STATSD_URL=udp://127.0.0.1:8125 lovasoa/wbo`.
+
+ - If you use **prometheus**, you can collect the metrics with [statsd-exporter](https://hub.docker.com/r/prom/statsd-exporter).
+ - If you use **datadog**, you can collect the metrics with [dogstatsd](https://docs.datadoghq.com/developers/dogstatsd).
