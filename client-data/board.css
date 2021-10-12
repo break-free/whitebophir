@@ -10,7 +10,7 @@ html, body, svg {
 
 #loadingMessage {
 	font-size: 1.5em;
-	background: #eee linear-gradient(#eeeeee, #cf11a6);
+	background: #eee linear-gradient(#eeeeee, #eeeeee);
 	padding: 20px;
 	width: 40%;
 	line-height: 50px;
@@ -101,7 +101,7 @@ html, body, svg {
 	border:1px solid #eeeeee;
 	text-decoration:none;
 	cursor:pointer;
-	background: #cf11a6;
+	background: #eeeeee;
 	margin-top: 10px;
 	height: 40px;
 	line-height: 40px;
