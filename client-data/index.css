@@ -1,5 +1,5 @@
 html {
-	background: linear-gradient(135deg, #c4dfffa0, transparent), url(background.png);
+	background: url(background.png), linear-gradient(135deg, #c4dfffa0, transparent), url(background.png);
 	width:100%;
 	min-height: 100%;
 	margin:0;
@@ -82,7 +82,7 @@ header:hover h2 {
 .wbo-button {
 	white-space: nowrap;
 	text-decoration: none;
-	background: linear-gradient(#C4DFFF, #8FA2BC);
+	background: linear-gradient(rgb(170,201,255), rgb(127,175,255));
 	margin-top: 15px;
 	line-height: 60px;
 	border-radius: 5px;
@@ -98,7 +98,7 @@ a{
 }
 
 .wbo-button:hover{
-		box-shadow: 0 0 5px #0074D9;
+		box-shadow: 0 0 5px rgb(237,28,36)/*#0074D9*/;
 }
 
 .wbo-button:focus, .wbo-button:active {
