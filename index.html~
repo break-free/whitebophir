@@ -18,7 +18,7 @@
 	{{#languages}}
 	<link rel="alternate" hreflang="{{.}}" href="?lang={{.}}" />{{/languages}}
 	<link rel="manifest" href="manifest.json">
-	<meta name="theme-color" content=rgb(212,228,255) />
+	<meta name="theme-color" content="#C4DFFF" />
 </head>
 
 <body>
@@ -42,10 +42,10 @@
 			<p>{{{translations.share_instructions}}}</p>
 		</div>
 
-		<!--<div>
+		<div>
 			<p>{{{translations.public_board_description}}}</p>
 			<a href="boards/anonymous" class="wbo-button">{{{translations.open_public_board}}}</a>
-		</div>-->
+		</div>
 
 		<div>
 			<p>{{{translations.private_board_description}}}</p>
@@ -60,17 +60,15 @@
 			</form>
 		</div>
 
-		<!--<div id="recent-boards" class="hidden">
+		<div id="recent-boards" class="hidden">
 			<h3>{{{translations.recent_boards}}}</h3>
-		</div>-->
+		</div>
 	</main>
 
 
 	<footer>
-		<a href="https://www.instagram.com/hiking_em/" class="smallink" rel="external" title="Instagram"><img
+		<a href="https://www.instagram.com/wbo_whiteboard/" class="smallink" rel="external" title="Instagram"><img
 				alt="instagram" src="instagram.svg" width="30" height="30" /></a>
-		<a href="https://www.linkedin.com/company/breakfree-solutions" class="smallink" rel="external" title="Instagram"><img
-                                alt="linkedin" src="LI-In-Bug.png" width="30" height="30" /></a>
 		<a href="https://github.com/break-free/whitebophir" class="smallink" rel="external"
 			title="{{translations.view_source}}"><img alt="github" src="github.svg" width="30" height="30" />
 		</a>
