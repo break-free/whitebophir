@@ -77,7 +77,7 @@ main>div:hover {
 
 header, main>div {
 	box-shadow: 2px 2px 10px #666;
-	background-color:#fff;
+	background-color: rgb(242, 242, 242,.95);
 }
 
 header:hover h2 {
@@ -167,6 +167,20 @@ footer a:hover {
 	padding: 9px 25px;
 	border: 1px solid black;
 	border-radius: 5px;
+}
+
+.lang-selectorcopy {
+        top: 20px;
+        right:20px;
+        position: absolute;
+        overflow: hidden;
+        padding: 10px;
+}
+
+.lang-selectorcopy span {
+        padding: 9px 25px;
+        border: 1px solid black;
+        border-radius: 5px;
 }
 
 .lang-selector ul {
