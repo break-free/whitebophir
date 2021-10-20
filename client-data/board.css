@@ -10,7 +10,7 @@ html, body, svg {
 
 #loadingMessage {
 	font-size: 1.5em;
-	background: #eee linear-gradient(#eeeeee, #cf11a6);
+	background: #eee linear-gradient(#eeeeee, #d80824);
 	padding: 20px;
 	width: 40%;
 	line-height: 50px;
@@ -284,8 +284,11 @@ circle.opcursor {
 		line-height: 10px;
 	}
 }
+<<<<<<< Updated upstream
 
 	
+=======
+>>>>>>> Stashed changes
 .button{
 	background-color: #8FA2BC;
 	border:0;
