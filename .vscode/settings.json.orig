@@ -1,0 +1,10 @@
+<<<<<<< HEAD
+{
+  "editor.formatOnSave": false
+}
+=======
+{
+  "editor.formatOnSave": false,
+  "svg.preview.background": "transparent"
+}
+>>>>>>> 4b915c2a041f0a6da23d5d665ac98741bedd432d

@@ -1,3 +1,4 @@
 {
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "svg.preview.background": "transparent"
 }
