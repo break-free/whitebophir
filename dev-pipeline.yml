@@ -5,15 +5,12 @@
 # Added some text
 
 trigger:
- branches:
-   include:
-     - master
-
-pr: none
+- dev
 
 variables:
+
   # Agent VM image name
-  vmImageName: 'ubuntu-20.04'
+  vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: Build
