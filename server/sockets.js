@@ -1,10 +1,10 @@
 var iolib = require("socket.io"),
-  { log, gauge, monitorFunction } = require("./log.js"),
+  log = require("./log.js").log,
   BoardData = require("./boardData.js").BoardData,
   config = require("./configuration");
 
 /** Map from name to *promises* of BoardData
-  @type {{[boardName: string]: Promise<BoardData>}}
+  @type {Object<string, Promise<BoardData>>}
 */
 var boards = {};
 
@@ -17,10 +17,9 @@ var boards = {};
  * @returns {A}
  */
 function noFail(fn) {
-  const monitored = monitorFunction(fn);
   return function noFailWrapped(arg) {
     try {
-      return monitored(arg);
+      return fn(arg);
     } catch (e) {
       console.trace(e);
     }
@@ -29,7 +28,7 @@ function noFail(fn) {
 
 function startIO(app) {
   io = iolib(app);
-  io.on("connection", noFail(handleSocketConnection));
+  io.on("connection", noFail(socketConnection));
   return io;
 }
 
@@ -42,7 +41,6 @@ function getBoard(name) {
   } else {
     var board = BoardData.load(name);
     boards[name] = board;
-    gauge("boards in memory", Object.keys(boards).length);
     return board;
   }
 }
@@ -51,7 +49,7 @@ function getBoard(name) {
  * Executes on every new connection
  * @param {iolib.Socket} socket
  */
-function handleSocketConnection(socket) {
+function socketConnection(socket) {
   /**
    * Function to call when an user joins a board
    * @param {string} name
@@ -66,13 +64,13 @@ function handleSocketConnection(socket) {
     var board = await getBoard(name);
     board.users.add(socket.id);
     log("board joined", { board: board.name, users: board.users.size });
-    gauge("connected." + name, board.users.size);
+    broadcastMetaData(socket, board.name, { users: board.users.size })
     return board;
   }
 
   socket.on(
     "error",
-    noFail(function onSocketError(error) {
+    noFail(function onError(error) {
       log("ERROR", error);
     })
   );
@@ -143,30 +141,24 @@ function handleSocketConnection(socket) {
         var board = await boards[room];
         board.users.delete(socket.id);
         var userCount = board.users.size;
-        log("disconnection", {
-          board: board.name,
-          users: board.users.size,
-          reason,
-        });
-        gauge("connected." + board.name, userCount);
-        if (userCount === 0) unloadBoard(room);
+        log("disconnection", { board: board.name, users: board.users.size });
+        broadcastMetaData(socket, board.name, { users: board.users.size })
+        if (userCount === 0) {
+            if(config.DELETE_ON_LEAVE){
+                board.deleteBoard()
+            } else {
+                board.save();
+            }
+          delete boards[room];
+        }
       }
     });
   });
 }
 
-/**
- * Unloads a board from memory.
- * @param {string} boardName
- **/
-async function unloadBoard(boardName) {
-  if (boards.hasOwnProperty(boardName)) {
-    const board = await boards[boardName];
-    await board.save();
-    log("unload board", { board: board.name, users: board.users.size });
-    delete boards[boardName];
-    gauge("boards in memory", Object.keys(boards).length);
-  }
+function broadcastMetaData(socket, boardName, metaData) {
+    socket.emit("metadata", metaData);
+    socket.broadcast.to(boardName).emit("metadata", metaData);
 }
 
 function handleMessage(boardName, message, socket) {
