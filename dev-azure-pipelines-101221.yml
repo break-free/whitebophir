@@ -7,10 +7,7 @@
 trigger:
 - dev
 
-pr: none
-
 variables:
-
 
   # Azure Resource Manager connection created during pipeline creation
   azureSubscription: 'de443a36-b10e-4f4e-b035-c47499496335'
@@ -44,7 +41,6 @@ stages:
         npm run build --if-present
         npm run test --if-present
       displayName: 'npm install, build and test'
-
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
@@ -80,4 +76,3 @@ stages:
               runtimeStack: 'NODE|10.10'
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
               startUpCommand: 'npm run start'
-      artifact: drop

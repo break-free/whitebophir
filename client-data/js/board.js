@@ -682,6 +682,25 @@ Tools.svg.height.baseVal.value = document.body.clientHeight;
 	  "stylesheet" : "style.css",
 }
 */
+const modal_container = document.getElementById("modal-container");
+const save = document.getElementById("save");
+const exit = document.getElementById("exit");
+
+
+window.onbeforeunload = function () {
+	modal_container.classList.add("show");
+};
+
+/** 
+save.addEventListener('click', () => {
+
+})
+*/
+
+exit.addEventListener('click', () => {
+	modal_container.classList.remove('show');
+})
+
 
 
 (function () {
