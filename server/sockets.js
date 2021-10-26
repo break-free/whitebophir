@@ -148,21 +148,8 @@ function handleSocketConnection(socket) {
           users: board.users.size,
           reason,
         });
-        log("delete-on-leave:", { deleteonleave: config.DELETE_ON_LEAVE,});
         gauge("connected." + board.name, userCount);
-        if (userCount === 0) {
-          if(config.DELETE_ON_LEAVE){
-            board.deleteBoard();
-            log("deleted board:", {
-              board: board.name, 
-              users: board.users.size, 
-              reason,
-            });
-          } else {
-            board.save()
-          }
-          unloadBoard(room);
-        }
+        if (userCount === 0) unloadBoard(room);
       }
     });
   });
