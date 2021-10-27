@@ -287,14 +287,6 @@ class BoardData {
     }
   }
 
-  /** Wipes a board's items then overwrites any previous saved files from storage
-   */
-  deleteBoard() {
-    //this.clean(); // this method doesn't appear to do what it says? for later.
-    this.board = {}; // this simple clears the 
-    this.save();
-  }
-
   /** Load the data in the board from a file.
    * @param {string} name - name of the board
    */
