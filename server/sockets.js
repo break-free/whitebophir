@@ -150,6 +150,7 @@ function handleSocketConnection(socket) {
         });
 //        log("delete-on-leave:", { deleteonleave: config.DELETE_ON_LEAVE,}); //TODO: leave this to test any future config switch for DELETE_ON_LEAVE
         gauge("connected." + board.name, userCount);
+        // Delete board if no more users are present.
         if (userCount === 0) {
           if(config.DELETE_ON_LEAVE){
             board.deleteBoard();
