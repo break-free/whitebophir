@@ -148,6 +148,7 @@ function handleSocketConnection(socket) {
           users: board.users.size,
           reason,
         });
+//      log("delete-on-leave:", { deleteonleave: config.DELETE_ON_LEAVE,}); //TODO: leave this to test any future config switch for DELETE_ON_LEAVE
         gauge("connected." + board.name, userCount);
         if (userCount === 0) unloadBoard(room);
       }
