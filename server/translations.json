@@ -69,7 +69,7 @@
     "public_board_description": "The <b>public board</b> is accessible to everyone. It is a happily disorganized mess where you can meet with anonymous strangers and draw together. Everything there is ephemeral.",
     "recent_boards": "Recent Boards",
     "rectangle": "Rectangle",
-    "share_instructions": "To collaborate on a board in real time with someone, just send them its URL. Note that restricted access to any URL shared by this application is not available. Therefore it is recommended that a random URL (by selecting "Create a private board") is used, and no confidential or sensitive information should be posted. Once all participants have left the whiteboard and associated URL, any data associated with the board will be deleted.",
+    "share_instructions": "To collaborate on a board in real-time with someone, just send them its URL. Note that restricted access to any URL shared by this application is not available. Therefore it is recommended that a random URL (by selecting \" Create a private board \" ) is used, and no confidential or sensitive information should be posted. Once all participants have left the whiteboard and associated URL, any data associated with the board will be deleted.",
     "size": "Size",
     "square": "Square",
     "straight_line": "Straight line",
