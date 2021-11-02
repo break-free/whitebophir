@@ -746,7 +746,51 @@ const exit = e => {
         e.target.className === 'close' || // user clicks on the close button
         e.keyCode === 27; // user hits escape
 
-    if (shouldExit) {
+	const shouldDownloadContent =
+		e.target.className === 'exit-download'
+
+	if (shouldDownloadContent) {
+		var canvasCopy = Tools.svg.cloneNode(true);
+        canvasCopy.removeAttribute("style", ""); // Remove css transform
+        var styleNode = document.createElement("style");
+
+        // Copy the stylesheets from the whiteboard to the exported SVG
+        styleNode.innerHTML = Array.from(document.styleSheets)
+            .filter(function (stylesheet) {
+                if (stylesheet.href && (stylesheet.href.match(/boards\/tools\/.*\.css/)
+                    || stylesheet.href.match(/board\.css/))) {
+                    // This is a Stylesheet from a Tool or the Board itself, so we should include it
+                    return true;
+                }
+                // Not a stylesheet of the tool, so we can ignore it for export
+                return false;
+            })
+            .map(function (stylesheet) {
+                return Array.from(stylesheet.cssRules)
+                    .map(function (rule) { return rule.cssText })
+            }).join("\n")
+
+        canvasCopy.appendChild(styleNode);
+        var outerHTML = canvasCopy.outerHTML || new XMLSerializer().serializeToString(canvasCopy);
+        var blob = new Blob([outerHTML], { type: 'image/svg+xml;charset=utf-8' });
+
+        if (window.navigator.msSaveBlob) { // Internet Explorer
+            window.navigator.msSaveBlob(blob, Tools.boardName + ".svg");
+        } 
+		else {
+            const url = URL.createObjectURL(blob);
+            var element = document.createElement('a');
+            element.setAttribute('href', url);
+            element.setAttribute('download', Tools.boardName + ".svg");
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            window.URL.revokeObjectURL(url);
+		}
+	}
+
+    if (shouldExit || shouldDownloadContent) {
         document.querySelector('.exit-intent-popup').classList.remove('visible');
     }
 };
