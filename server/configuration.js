@@ -54,4 +54,7 @@ module.exports = {
    * example: udp://127.0.0.1
   */
   STATSD_URL: process.env["STATSD_URL"],
+
+  /** Automatically delete board as soon as the last user leaves. */
+  DELETE_ON_LEAVE: process.env["DELETE_ON_LEAVE"] == "false" ? false : true, 
 };
