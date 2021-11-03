@@ -149,7 +149,20 @@ function handleSocketConnection(socket) {
           reason,
         });
         gauge("connected." + board.name, userCount);
-        if (userCount === 0) unloadBoard(room);
+        // Delete board if no more users are present.
+        if (userCount === 0) {
+          if(config.DELETE_ON_LEAVE){
+            board.deleteBoard();
+            log("deleted board:", {
+              board: board.name, 
+              users: board.users.size, 
+              reason,
+            });
+          } else {
+            board.save()
+          }
+          unloadBoard(room);
+        }
       }
     });
   });

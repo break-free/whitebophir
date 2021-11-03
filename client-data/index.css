@@ -1,5 +1,5 @@
 html {
-	background: url(background.png)/*, linear-gradient(135deg, #c4dfffa0, transparent), url(background.png);*/;
+	background: rgb(212,228,255)/* url(background.png), linear-gradient(135deg, #c4dfffa0, transparent), url(background.png);*/;
 	width:100%;
 	min-height: 100%;
 	margin:0;
