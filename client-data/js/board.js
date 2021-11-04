@@ -720,9 +720,12 @@ const CookieService = {
 
         if (days) {
             const date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            //date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+			date.setTime(date.getTime() + (60 * 60 * 1000)); //By default the cookie info lasts for 30 days (too long); adjusting to an hour
             expires = '; expires=' + date.toUTCString();
         }
+
+		name = name + window.location.href //added url specific info to the cookie name, so that each board is unique
 
         document.cookie = name + '=' + (value || '')  + expires + ';';
     },
@@ -809,7 +812,7 @@ const mouseEvent = e => {
     }
 };
 
-if (!CookieService.getCookie('exitIntentShown')) {
+if (!CookieService.getCookie('exitIntentShown'+window.location.href)) {
     setTimeout(() => {
         document.addEventListener('mouseout', mouseEvent);
         document.addEventListener('keydown', exit);
