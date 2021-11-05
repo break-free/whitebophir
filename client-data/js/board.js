@@ -747,11 +747,21 @@ const exit = e => {
     const shouldExit =
         [...e.target.classList].includes('exit-intent-popup') || // user clicks on mask
         e.target.className === 'close' || // user clicks on the close button
-        e.keyCode === 27; // user hits escape
+        e.keyCode === 27 // user hits escape
 
 	const shouldDownloadContent =
 		e.target.className === 'exit-download'
 
+	const shouldExitCompletely =
+		e.target.className === 'exit-wb'
+
+	// Close pop up and close whiteboard - return to main webpage
+	if (shouldExitCompletely) {
+		window.onbeforeunload = false;
+		window.history.go(-1);
+	}
+
+	// Download whiteboard as an SVG and exit whiteboard to the website landing page
 	if (shouldDownloadContent) {
 		var canvasCopy = Tools.svg.cloneNode(true);
         canvasCopy.removeAttribute("style", ""); // Remove css transform
@@ -791,8 +801,13 @@ const exit = e => {
             document.body.removeChild(element);
             window.URL.revokeObjectURL(url);
 		}
+
+		// Close popup and exit whiteboard to the main website landing page
+		window.onbeforeunload = false;
+		window.history.go(-1);
 	}
 
+	// Close popup and return to the current whiteboard
     if (shouldExit || shouldDownloadContent) {
         document.querySelector('.exit-intent-popup').classList.remove('visible');
     }
