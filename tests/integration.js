@@ -2,14 +2,16 @@ const fs = require("../server/fs_promises.js");
 const os = require("os");
 const path = require("path");
 
-const PORT = 8487
+const PORT = "8487"
 const SERVER = 'http://localhost:' + PORT;
+const DELETE_ON_LEAVE = "false"
 
 let wbo, data_path;
 
 async function beforeEach(browser, done) {
     data_path = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'wbo-test-data-'));
     process.env["PORT"] = PORT;
+    process.env["DELETE_ON_LEAVE"] = DELETE_ON_LEAVE;
     process.env["WBO_HISTORY_DIR"] = data_path;
     console.log("Launching WBO in " + data_path);
     wbo = require("../server/server.js");
@@ -48,10 +50,10 @@ function testPencil(browser) {
         })
         .assert.visible("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
         .assert.visible("path[d='M 0 0 L 0 0 C 0 0 40 120 90 120 C 140 120 180 0 180 0'][stroke='#abcdef']")
-//        .refresh() //TODO: removed to prevent board being deleted.
+        .refresh()
         .waitForElementVisible("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
         .assert.visible("path[d='M 0 0 L 0 0 C 0 0 40 120 90 120 C 140 120 180 0 180 0'][stroke='#abcdef']")
-//        .url(SERVER + '/preview/anonymous') //TODO: removed to prevent board being deleted.
+        .url(SERVER + '/preview/anonymous')
         .waitForElementVisible("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
         .assert.visible("path[d='M 0 0 L 0 0 C 0 0 40 120 90 120 C 140 120 180 0 180 0'][stroke='#abcdef']")
         .back()
@@ -71,7 +73,7 @@ function testCircle(browser) {
             }, 100);
         })
         .assert.visible("ellipse[cx='0'][cy='200'][rx='200'][ry='200'][stroke='#112233']")
-//        .refresh() //TODO: removed to prevent board bein deleted.
+        .refresh()
         .waitForElementVisible("ellipse[cx='0'][cy='200'][rx='200'][ry='200'][stroke='#112233']")
         .click('#toolID-Ellipse') // Click the ellipse tool
         .click('#toolID-Ellipse') // Click again to toggle
