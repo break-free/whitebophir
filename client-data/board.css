@@ -330,10 +330,18 @@ circle.opcursor {
 	border-radius: 5px;
 }
 
+.exit-wb {
+	border-radius: 5px;
+}
+
 .exit-download:hover {
-	box-shadow: 0 0 5px rgb(237,28,36)
+	box-shadow: 0 0 5px rgb(237,28,36);
 }
 
 .close:hover {
-	box-shadow: 0 0 5px rgb(237,28,36)
+	box-shadow: 0 0 5px rgb(237,28,36);
+}
+
+.exit-wb:hover {
+	box-shadow: 0 0 5px rgb(237,28,36);
 }
