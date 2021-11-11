@@ -758,7 +758,9 @@ const exit = e => {
 	// Close pop up and close whiteboard - return to main webpage
 	if (shouldExitCompletely) {
 		window.onbeforeunload = false;
-		window.history.go(-1);
+		var urlString = window.location.href;
+		urlStringUpdate = urlString.substring(0,urlString.indexOf("/boards/"));
+		window.location.replace(urlStringUpdate);
 	}
 
 	// Download whiteboard as an SVG and exit whiteboard to the website landing page
@@ -804,7 +806,9 @@ const exit = e => {
 
 		// Close popup and exit whiteboard to the main website landing page
 		window.onbeforeunload = false;
-		window.history.go(-1);
+		var urlString = window.location.href;
+		urlStringUpdate = urlString.substring(0,urlString.indexOf("/boards/"));
+		window.location.replace(urlStringUpdate);
 	}
 
 	// Close popup and return to the current whiteboard
@@ -813,11 +817,17 @@ const exit = e => {
     }
 };
 
+// Set a variable with the current time when you open up a board
+var boardLoadTime = new Date();
+
 const mouseEvent = e => {
+	var curTime = new Date()
     const shouldShowExitIntent = 
         !e.toElement && 
         !e.relatedTarget &&
-        e.clientY < 10;
+        e.clientY < 10 && // Prevents popup until mouse has gone to thw browser bar
+		curTime - boardLoadTime > 10000 // Only show pop up after user has been on the board for more than 10 seconds
+		;
 
     if (shouldShowExitIntent) {
         document.removeEventListener('mouseout', mouseEvent);
