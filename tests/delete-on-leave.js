@@ -43,8 +43,6 @@ function testDeleteOnRefreshWithOneUser(browser) {
         .back()
 }
 
-// TODO: Dummy function that copies the same test as testDeleteOnRefreshWithOneUser.
-
 function testDeleteOnRefreshWithTwoUsers(browser) {
     return browser
         .assert.titleContains('WBO')
@@ -85,11 +83,45 @@ function testDeleteOnRefreshWithTwoUsers(browser) {
         .back()
 }
 
+function testDeleteAfterWindowClose(browser) {
+    return browser
+        .assert.titleContains('WBO')
+        .click('.tool[title ~= Pencil]') // pencil
+        .assert.cssClassPresent('.tool[title ~= Pencil]', ['curTool'])
+        .executeAsync(async function (done) {
+            function sleep(t) {
+                return new Promise(function (accept) { setTimeout(accept, t); });
+            }
+            Tools.setColor('#123456');
+            Tools.curTool.listeners.press(100, 200, new Event("mousedown"));
+            await sleep(80);
+            Tools.curTool.listeners.release(300, 400, new Event("mouseup"));
+            done();
+        })
+        .assert.elementPresent("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
+        // Open a second window but then return to first window and close it.
+        .openNewWindow()
+        .windowHandles(function (result) {
+             var handle = result.value[0];
+             browser.switchWindow(handle);
+        })
+        .closeWindow()
+        // Return to second (now only) window, navigate to URL and confirm no elements exist.
+        .windowHandles(function (result) {
+             var handle = result.value[0];
+             browser.switchWindow(handle);
+        })
+        .url(URL)
+        .assert.not.elementPresent("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
+        .back()
+}
+
 function testBoardDelete(browser) {
     var page = browser.url(URL)
         .waitForElementVisible('.tool[title ~= Pencil]') // pencil
     page = testDeleteOnRefreshWithOneUser(page);
     page = testDeleteOnRefreshWithTwoUsers(page);
+    page = testDeleteAfterWindowClose(page);
     page.end();
 }
 
