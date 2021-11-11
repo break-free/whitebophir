@@ -99,6 +99,7 @@ function testDeleteAfterWindowClose(browser) {
             done();
         })
         .assert.elementPresent("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
+        .assert.visible("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
         // Open a second window but then return to first window and close it.
         .openNewWindow()
         .windowHandles(function (result) {

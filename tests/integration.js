@@ -4,6 +4,8 @@ const path = require("path");
 
 const PORT = "8487"
 const SERVER = 'http://localhost:' + PORT;
+const URL = SERVER + '/boards/anonymous?lang=fr';
+const BLANK_URL = 'about:blank'
 const DELETE_ON_LEAVE = "false"
 
 let wbo, data_path;
@@ -93,12 +95,45 @@ function testCursor(browser) {
         .assert.attributeEquals("#cursor-me", "fill", "#456123")
 }
 
+function testNoDeleteAfterWindowClose(browser) {
+    return browser
+        .executeAsync(async function (done) {
+            function sleep(t) {
+                return new Promise(function (accept) { setTimeout(accept, t); });
+            }
+            Tools.setColor('123456');
+            Tools.curTool.listeners.press(100, 200, new Event("mousedown"));
+            await sleep(80);
+            Tools.curTool.listeners.release(300, 400, new Event("mouseup"));
+            done();
+        })
+        .assert.elementPresent("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
+        .assert.visible("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
+        // Open a second window but then return to first window and close it.
+        .openNewWindow()
+        .windowHandles(function (result) {
+             var handle = result.value[0];
+             browser.switchWindow(handle);
+        })
+        .closeWindow()
+        // Return to second (now only) window, navigate to URL and confirm element still exists and is visible.
+        .windowHandles(function (result) {
+             var handle = result.value[0];
+             browser.switchWindow(handle);
+        })
+        .assert.not.elementPresent("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
+        .url(URL)
+        .assert.visible("path[d='M 100 200 L 100 200 C 100 200 300 400 300 400'][stroke='#123456']")
+        .back()
+}
+
 function testBoard(browser) {
-    var page = browser.url(SERVER + '/boards/anonymous?lang=fr')
+    var page = browser.url(URL)
         .waitForElementVisible('.tool[title ~= Crayon]') // pencil
     page = testPencil(page);
     page = testCircle(page);
     page = testCursor(page);
+    page = testNoDeleteAfterWindowClose(page)
 
     // test hideMenu
     browser.url(SERVER + '/boards/anonymous?lang=fr&hideMenu=true').waitForElementNotVisible('#menu');

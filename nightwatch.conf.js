@@ -21,6 +21,7 @@ module.exports = {
 
   "test_settings": {
     "default": {
+      "launch_url": "",
       "desiredCapabilities": {
         "browserName": "firefox",
         "acceptInsecureCerts": true,
