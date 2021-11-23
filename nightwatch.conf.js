@@ -27,7 +27,8 @@ module.exports = {
         "acceptInsecureCerts": true,
         "alwaysMatch": {
           "moz:firefoxOptions": {
-            "args": ["-headless"]
+            "args": ["-headless"],
+            "w3c": false
           }
         }
 
