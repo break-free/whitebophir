@@ -28,6 +28,7 @@ module.exports = {
         "alwaysMatch": {
           "moz:firefoxOptions": {
             "args": ["-headless"]
+            
           }
         }
 
