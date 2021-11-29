@@ -307,11 +307,41 @@ circle.opcursor {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+	max-width: 675px;
 }
 
 /* Popup-specific styles */
 .save-warning {
     background: rgb(170,201,255);
     padding: 10px;
-    border-radius: 3px;
+    border-radius: 20px;
+	border: solid;
+}
+
+.button-wrap {
+	text-align: center;
+}
+
+.exit-download {
+	border-radius: 5px;
+}
+
+.close {
+	border-radius: 5px;
+}
+
+.exit-wb {
+	border-radius: 5px;
+}
+
+.exit-download:hover {
+	box-shadow: 0 0 5px rgb(237,28,36);
+}
+
+.close:hover {
+	box-shadow: 0 0 5px rgb(237,28,36);
+}
+
+.exit-wb:hover {
+	box-shadow: 0 0 5px rgb(237,28,36);
 }

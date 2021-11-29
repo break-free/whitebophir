@@ -720,9 +720,12 @@ const CookieService = {
 
         if (days) {
             const date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            //date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+			date.setTime(date.getTime() + (60 * 60 * 1000)); //By default the cookie info lasts for 30 days (too long); adjusting to an hour
             expires = '; expires=' + date.toUTCString();
         }
+
+		name = name + window.location.href //added url specific info to the cookie name, so that each board is unique
 
         document.cookie = name + '=' + (value || '')  + expires + ';';
     },
@@ -744,18 +747,87 @@ const exit = e => {
     const shouldExit =
         [...e.target.classList].includes('exit-intent-popup') || // user clicks on mask
         e.target.className === 'close' || // user clicks on the close button
-        e.keyCode === 27; // user hits escape
+        e.keyCode === 27 // user hits escape
 
-    if (shouldExit) {
+	const shouldDownloadContent =
+		e.target.className === 'exit-download'
+
+	const shouldExitCompletely =
+		e.target.className === 'exit-wb'
+
+	// Close pop up and close whiteboard - return to main webpage
+	if (shouldExitCompletely) {
+		window.onbeforeunload = false;
+		var urlString = window.location.href;
+		urlStringUpdate = urlString.substring(0,urlString.indexOf("/boards/"));
+		window.location.replace(urlStringUpdate);
+	}
+
+	// Download whiteboard as an SVG and exit whiteboard to the website landing page
+	if (shouldDownloadContent) {
+		var canvasCopy = Tools.svg.cloneNode(true);
+        canvasCopy.removeAttribute("style", ""); // Remove css transform
+        var styleNode = document.createElement("style");
+
+        // Copy the stylesheets from the whiteboard to the exported SVG
+        styleNode.innerHTML = Array.from(document.styleSheets)
+            .filter(function (stylesheet) {
+                if (stylesheet.href && (stylesheet.href.match(/boards\/tools\/.*\.css/)
+                    || stylesheet.href.match(/board\.css/))) {
+                    // This is a Stylesheet from a Tool or the Board itself, so we should include it
+                    return true;
+                }
+                // Not a stylesheet of the tool, so we can ignore it for export
+                return false;
+            })
+            .map(function (stylesheet) {
+                return Array.from(stylesheet.cssRules)
+                    .map(function (rule) { return rule.cssText })
+            }).join("\n")
+
+        canvasCopy.appendChild(styleNode);
+        var outerHTML = canvasCopy.outerHTML || new XMLSerializer().serializeToString(canvasCopy);
+        var blob = new Blob([outerHTML], { type: 'image/svg+xml;charset=utf-8' });
+
+        if (window.navigator.msSaveBlob) { // Internet Explorer
+            window.navigator.msSaveBlob(blob, Tools.boardName + ".svg");
+        } 
+		else {
+            const url = URL.createObjectURL(blob);
+            var element = document.createElement('a');
+            element.setAttribute('href', url);
+            element.setAttribute('download', Tools.boardName + ".svg");
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            window.URL.revokeObjectURL(url);
+		}
+
+		// Close popup and exit whiteboard to the main website landing page
+		window.onbeforeunload = false;
+		var urlString = window.location.href;
+		urlStringUpdate = urlString.substring(0,urlString.indexOf("/boards/"));
+		window.location.replace(urlStringUpdate);
+	}
+
+	// Close popup and return to the current whiteboard
+    if (shouldExit || shouldDownloadContent) {
         document.querySelector('.exit-intent-popup').classList.remove('visible');
     }
 };
 
+// Set a variable with the current time when you open up a board
+var boardLoadTime = new Date();
+
 const mouseEvent = e => {
+	var curTime = new Date()
     const shouldShowExitIntent = 
         !e.toElement && 
         !e.relatedTarget &&
-        e.clientY < 10;
+        e.clientY < 10 && // Prevents popup until mouse has gone to thw browser bar
+		curTime - boardLoadTime > 10000 // Only show pop up after user has been on the board for more than 10 seconds
+		;
 
     if (shouldShowExitIntent) {
         document.removeEventListener('mouseout', mouseEvent);
@@ -765,7 +837,7 @@ const mouseEvent = e => {
     }
 };
 
-if (!CookieService.getCookie('exitIntentShown')) {
+if (!CookieService.getCookie('exitIntentShown'+window.location.href)) {
     setTimeout(() => {
         document.addEventListener('mouseout', mouseEvent);
         document.addEventListener('keydown', exit);
